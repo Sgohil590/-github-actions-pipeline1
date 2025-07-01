@@ -1,20 +1,23 @@
-# Realtime Chat Application
+This project contains a simple React application that is automatically built and deployed to an AWS S3 bucket using GitHub Actions.
 
-### [Live Site](https://realtime-chat-application.netlify.com)
+ Tech Stack
+React – Frontend Framework
 
-### [🌟 Become a top 1% Next.js developer in only one course](https://jsmastery.pro/next15)
-### [🚀 Land your dream programming job in 6 months](https://jsmastery.pro/masterclass)
+GitHub Actions – CI/CD Automation
 
-![Chat Application](https://i.ytimg.com/vi/ZwFA3YMfkoc/maxresdefault.jpg)
+AWS S3 – Static Website Hosting
 
-## Introduction
-This is a code repository for the corresponding video tutorial. 
+GitHub Actions Workflow
+The pipeline performs the following steps:
 
-In this video, we will create a full Realtime Chat Application. We're going to use  React on the front end, with NodeJS + Socket.io web socket library on the back end. 
+Trigger: Runs on push to master branch.
 
-By the end of this video, you will have a strong understanding of how to send and receive messages using web sockets and Socket.io to make any real-time application.
+Checkout: Clones the repository code.
 
-## Launch your development career with project-based coaching - https://www.jsmastery.pro
+Setup Node.js: Uses Node version 17.9.1.
 
-Setup:
-- run ```npm i && npm start``` for both client and server side to start the development server
+Install Dependencies: Runs npm install inside the client/ directory.
+
+Build React App: Builds the app using CI=false npm run build to avoid ESLint warning errors.
+
+Deploy to AWS S3: Uses jakejarvis/s3-sync-action to sync the build folder to your configured S3 bucket.
