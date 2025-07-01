@@ -38,7 +38,7 @@ const Chat = ({ location }) => {
       socket.current.disconnect();
       socket.current.off();
     };
-  }, [location.search]); // ✅ removed ENDPOINT
+  }, [location.search]);
 
   useEffect(() => {
     if (!socket.current) return;
@@ -70,21 +70,6 @@ const Chat = ({ location }) => {
       <TextContainer users={users} />
     </div>
   );
-};
-
-export default Chat;
-
-
-  return (
-    <div className="outerContainer">
-      <div className="container">
-          <InfoBar room={room} />
-          <Messages messages={messages} name={name} />
-          <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-      </div>
-      <TextContainer users={users}/>
-    </div>
-  );
-}
+}; // ✅ This was likely missing or broken
 
 export default Chat;
