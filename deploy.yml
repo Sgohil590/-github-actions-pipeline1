@@ -3,7 +3,7 @@ name: Deploy React App
 on:
   push:
     branches:
-      - master  # or main
+      - master  
 
 jobs:
   build:
@@ -25,7 +25,8 @@ jobs:
       - name: Build project (ignore ESLint warnings)
         run: CI=false npm run build
         working-directory: ./client
-
+          env:
+            CI: false
       # Optional S3 deployment step (only if you're deploying to S3)
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
