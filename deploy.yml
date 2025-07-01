@@ -1,40 +1,39 @@
-nname: Deploy React app to S3
+name: Deploy React App
 
 on:
   push:
-    branches: [master]  
+    branches:
+      - master  # or main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: client
-
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 17
+          node-version: '17.9.1'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
+        working-directory: ./client
 
-      - name: Build React App
-        # Disable CI strict mode to avoid warnings being treated as errors
-        run: CI='' NODE_OPTIONS=--openssl-legacy-provider npm run build
+      - name: Build project (ignore ESLint warnings)
+        run: CI=false npm run build
+        working-directory: ./client
 
-      - name: Deploy to AWS S3
+      # Optional S3 deployment step (only if you're deploying to S3)
+      - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --delete
         env:
-          AWS_S3_BUCKET: gitact
-          AWS_REGION: ap-south-1
-          SOURCE_DIR: build
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'ap-south-1'
+          SOURCE_DIR: './client/build'
